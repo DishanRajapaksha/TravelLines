@@ -58,16 +58,7 @@ const MAP_STYLES = {
   }
 };
 
-function parseEuro(amount) {
-  if (!amount) return 0;
-  const cleaned = amount
-    .replace(/\u20ac/g, '')
-    .replace(/\s/g, '')
-    .replace(/\./g, '')
-    .replace(',', '.');
-  const value = Number(cleaned);
-  return Number.isFinite(value) ? value : 0;
-}
+
 
 function parseDate(value) {
   if (!value) return null;
@@ -85,12 +76,7 @@ function formatDate(date) {
   });
 }
 
-function formatMoney(value) {
-  return new Intl.NumberFormat('nl-NL', {
-    style: 'currency',
-    currency: 'EUR'
-  }).format(value);
-}
+
 
 function toInputDate(date) {
   if (!date) return '';
@@ -172,7 +158,6 @@ function App() {
           checkOut: row['Check uit'],
           from: row['Vertrek'] || '',
           to: row['Bestemming'] || '',
-          cost: parseEuro(row['Af']) - parseEuro(row['Bij']),
           transactie: row['Transactie'],
           product: row['Product'],
           class: row['Kl'],
@@ -232,10 +217,8 @@ function App() {
     const stopMap = new Map();
     const productMap = new Map();
     const missing = new Set();
-    let totalCost = 0;
 
     filteredTrips.forEach((trip) => {
-      totalCost += trip.cost;
       productMap.set(trip.product, (productMap.get(trip.product) || 0) + 1);
 
       if (trip.transactie !== 'Reis') return;
@@ -256,12 +239,10 @@ function App() {
         fromCoord,
         toCoord,
         count: 0,
-        totalCost: 0,
         products: new Map(),
         dates: []
       };
       route.count += 1;
-      route.totalCost += trip.cost;
       route.products.set(trip.product, (route.products.get(trip.product) || 0) + 1);
       route.dates.push(trip.date);
       routeMap.set(routeKey, route);
@@ -287,7 +268,6 @@ function App() {
       routes,
       stops,
       products,
-      totalCost,
       missing: Array.from(missing).sort((a, b) => a.localeCompare(b))
     };
   }, [filteredTrips, coords]);
@@ -431,7 +411,7 @@ function App() {
             <div className="hero-text">
               <h1>Travel Lines</h1>
               <p className="subhead">
-                {tripCount} trips / {uniqueStops} stops / {formatMoney(analytics.totalCost)}
+                {tripCount} trips / {uniqueStops} stops
               </p>
             </div>
           </header>
@@ -591,10 +571,7 @@ function App() {
               <span>Routes</span>
               <strong>{visibleRoutes.length}</strong>
             </div>
-            <div className="stat">
-              <span>Total Cost</span>
-              <strong>{formatMoney(analytics.totalCost)}</strong>
-            </div>
+
           </div>
         </aside>
       </main>
