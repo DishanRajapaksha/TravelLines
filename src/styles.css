@@ -1,0 +1,376 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+:root {
+  color-scheme: light;
+  --bg-1: #f7f2e9;
+  --bg-2: #f0d7b9;
+  --bg-3: #d5c2a1;
+  --ink: #1f2a28;
+  --muted: #5e6b66;
+  --accent: #0f766e;
+  --accent-2: #e76f51;
+  --card: rgba(255, 255, 255, 0.7);
+  --stroke: rgba(30, 41, 59, 0.08);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--bg-1);
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+.app {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+/* UI Overlay elements */
+.floating-widget {
+  position: relative;
+  z-index: 10;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--glass-border);
+  box-shadow: var(--shadow);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sidebar & Layout */
+.content {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: block;
+  /* No longer a grid centered on screen */
+  padding: 24px;
+  z-index: 5;
+}
+
+.content>* {
+  pointer-events: auto;
+}
+
+.sidebar {
+  width: 340px;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding-right: 8px;
+  /* For scrollbar thinness */
+  scrollbar-width: none;
+  /* Firefox */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
+
+.hero-text h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.hero-text .subhead {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat span {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.stat strong {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.hero {
+  padding: 24px;
+}
+
+.panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--glass-border);
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+.panel h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  margin: 0 0 16px;
+}
+
+/* Form Styles */
+.field {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.field input[type='search'],
+.field input[type='date'],
+.style-select {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: background 0.2s;
+}
+
+.field input:focus,
+.style-select:focus {
+  background: white;
+}
+
+.range-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.product-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 99px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.product-chip.active {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.product-chip .swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.toggles {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.toggles label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* Breakdown Bars */
+.bar {
+  margin-bottom: 12px;
+}
+
+.bar-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.bar-info span {
+  font-size: 0.8rem;
+}
+
+.bar-info strong {
+  font-size: 0.8rem;
+}
+
+.track {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+/* Lists */
+.list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+}
+
+.item-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-content .title {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.item-content .meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Toggle Button */
+.ui-toggle {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+
+.ui-toggle:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.ui-toggle.active {
+  background: white;
+  color: var(--ink);
+}
+
+/* Visibility Control */
+.app.ui-hidden .sidebar {
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+/* Leaflet Overrides */
+.leaflet-container {
+  background: #f0f0f0;
+}
+
+.leaflet-bar {
+  border: none !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.leaflet-bar a {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(8px);
+  border: var(--glass-border) !important;
+}
+
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+    padding-top: 140px;
+    overflow-y: auto;
+    pointer-events: auto;
+  }
+
+  .right-panels {
+    align-items: stretch;
+  }
+
+  .hero {
+    left: 12px;
+    right: 12px;
+    top: 12px;
+  }
+}
