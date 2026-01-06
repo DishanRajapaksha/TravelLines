@@ -116,8 +116,8 @@ function App() {
     async function load() {
       try {
         const [csvRes, coordsRes] = await Promise.all([
-          fetch('/data/trips.csv'),
-          fetch('/data/stopCoords.json')
+          fetch('data/trips.csv'),
+          fetch('data/stopCoords.json')
         ]);
 
         if (!csvRes.ok) {

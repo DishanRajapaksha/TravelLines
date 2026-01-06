@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  webserver:
+    image: nginx:alpine
+    container_name: travellines-web
+    ports:
+      - "80:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html/travelines
+    restart: always
